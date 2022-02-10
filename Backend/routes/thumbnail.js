@@ -20,20 +20,20 @@ router.param("thumbnailId", getThumbnailById);
 
 //POST
 router.post(
-  "thumbnail/:videoId/create/:userId",
+  "/thumbnail/:videoId/create/:userId",
   isSignedIn,
   isAuthenticated,
   postThumbnail
 );
 
 //READ
-router.get("thumbnail/render/thumbnailId", getThumbnailById);
+router.get("/thumbnail/render/thumbnailId", getThumbnailById);
 
-router.get("thumbnail/getAll", getAllThumbnails);
+router.get("/thumbnail/getAll", getAllThumbnails);
 
 //UPDATE
 router.put(
-  "thumbnail/thumbnailId/update/:userId",
+  "/thumbnail/thumbnailId/update/:userId",
   isSignedIn,
   isAuthenticated,
   updateThumbnails

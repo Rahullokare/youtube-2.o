@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #212121;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+}
+.btn {
+  background-color: rgb(103, 7, 228) !important;
+  color: #fff;
+}
+.btn:hover {
+  color: #fff;
+}

@@ -4,7 +4,7 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "/uploads");
+    cb(null, path.join(__dirname, "../uploads/"));
   },
   filename: function (req, file, cb) {
     const uniqueName = `${Date.now()}-${Math.round(
@@ -26,10 +26,10 @@ exports.createVideo = (req, res) => {
       });
     }
     const video = new Video({
-      filename: req.file.filename,
-      path: req.file.path,
-      userid: req.auth._id,
-      size: req.file.size,
+      file_name: req.file.filename,
+      video_path: req.file.path,
+      user_id: req.auth._id,
+      file_size: req.file.size,
       ...req.body,
     });
     video.save((err, vid) => {

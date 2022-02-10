@@ -19,6 +19,9 @@ var VideoSchema = new mongoose.Schema({
   video_path: {
     type: String,
   },
+  file_name: {
+    type: String,
+  },
   file_size: {
     type: Buffer,
   },

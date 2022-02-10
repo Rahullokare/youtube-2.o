@@ -1,0 +1,14 @@
+.video-play {
+  object-fit: fill;
+  height: 450px;
+  max-width: 100%;
+}
+.video-suggestion img {
+  height: 110px;
+  width: 165px;
+}
+.video-suggestion-title {
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
