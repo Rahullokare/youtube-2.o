@@ -9,6 +9,8 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const path = require("path");
+const helmet = require("helmet");
+const morgan = require("morgan");
 
 //routes
 const authRoutes = require("./routes/auth.js");
@@ -30,10 +32,20 @@ mongoose
     console.log("DB Connected");
   });
 
+
+  // app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 //MiddleWares
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors())
+app.use(helmet());
+app.use(morgan("common"));
+
+// app.use(express.static('uploads'))
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+
 
 //Routes
 app.use("/api", authRoutes);
@@ -45,14 +57,12 @@ app.use("/api", thumbnailRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", videoRoutes);
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 //PORT
 const port = process.env.PORT || 8000;
 
 //SECURITY
-var helmet = require("helmet");
-app.use(helmet());
 
 app.get("/", (req, res) => {
   res.send("hello world");

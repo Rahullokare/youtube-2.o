@@ -4,14 +4,14 @@ import VideoCard from "../videos/VideoCard";
 import Base from "./Base";
 import axios from 'axios'
 const Home = () => {
-  const [thumbnail, setThumbnail] = useState({})
+  const [videos, setVideos] = useState({})
   useEffect(() => {
-
+    thumbnailHandler()
   }, []);
   const thumbnailHandler = () => {
-    axios.get(`${API}/thumbnail/getAll`)
+    axios.get(`${API}/videos/getAll`)
       .then((response) => {
-        setThumbnail(response.data)
+        setVideos(response.data)
       })
       .catch((error) => {
         console.log(error)
@@ -20,10 +20,40 @@ const Home = () => {
 
 
   return (
-    <Base className=" container-fluid mt-5">
-      <h1>hello home</h1>
+    <Base className=" container-fluid mt-5 pt-5">
+      {/* <h1>hello home</h1> */}
+      <div className="d-flex flex-wrap gap-2">
+      {
+        new Array(10).fill("_").map((d,i)=>{
+        return  <VideoCard index={i}/>
+        })
+      }
+      </div>
+     
+     
       {/* {thumbnailHandler()} */}
+      {/* {
+        videos.length && videos.map((d, i) => {
+          return (<>
+            <p>Video Title : {d.title}</p>
+            <p>Video Description : {d.description}</p>
+            {
+              d.video_path ? (
+                <video className="video-play" controls>
+                  <source
+                    src={d.video_path}
+                    type="video/mp4"
+                    controls
+                  />
+                  Your browser does not support the video tag
+                </video>) : ""
+            }
 
+          </>)
+        })
+      } */}
+
+     
     </Base>
   );
 };

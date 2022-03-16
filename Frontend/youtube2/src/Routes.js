@@ -5,6 +5,7 @@ import Home from "./core/Home";
 import Subscriptions from "./user/Subscriptions";
 import Signin from "./user/Signin";
 import Signup from "./user/Signup";
+import Profile from "./user/Profile";
 import SaveVideos from "./videos/SaveVideos";
 import VideoView from "./videos/VideoView";
 
@@ -19,6 +20,7 @@ const MainRoutes = () => {
         <Route path="/Subscriptions" element={<Subscriptions />}></Route>
         <Route path="/SaveVideos" element={<SaveVideos />}></Route>
         <Route path="/VideoView" element={<VideoView />}></Route>
+        <Route path="/profile" element={<Profile />}></Route>
         {/* for 404 route */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

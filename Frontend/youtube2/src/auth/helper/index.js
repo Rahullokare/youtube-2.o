@@ -1,5 +1,4 @@
 import { API } from "../../backend";
-// API means ;http://localhost:8000/api/
 
 export const signup = (user) => {
   return fetch(`${API}/signup`, {
@@ -53,7 +52,7 @@ export const authenticate = (data, next) => {
   }
 };
 
-export const isAuthenticated = () => {
+export const isAutheticated = () => {
   if (typeof window == undefined) {
     return false;
   }

@@ -1,10 +1,29 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import logo from '../assets/edited.png'
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import logo from '../assets/svg/logo.svg'
+import axios from 'axios'
+import { API } from "../backend";
+import { signout, isAutheticated } from "../auth/helper";
+// import { CloudUpload } from "@mui/icons-material";
 function Menu() {
+  const navigate = useNavigate()
+  //   const [user, setUser] = useState([])
+  //  const userInfo =  JSON.parse(localStorage.getItem('auth_token') )
+
+  //  const getUser = ()=>{
+  //   axios.get(`${API}/user/${userInfo.user._id}`).then((response)=>{
+  //    console.log(response.data)
+  //    setUser(response)
+  //   }).catch(err=>console.log(err))
+  //  }
+  //  useEffect(() => {
+  //   getUser()
+  //  }, [])
+  const { user } = isAutheticated()
+
   return (
-    <div>
-      <header className="p-3 mb-3">
+    <div className="shadow-lg">
+      <header className="p-3 mb-3 me-3">
         <div className="container-fluid">
           {/* Sidebar Menu */}
           <div
@@ -13,7 +32,7 @@ function Menu() {
             id="offcanvasWithBackdrop"
             aria-labelledby="offcanvasWithBackdropLabel"
           >
-            <div className="offcanvas-header">
+            <div className="offcanvas-header ">
               <i
                 className="fas fa-2x fa-bars"
                 data-bs-dismiss="offcanvas"
@@ -46,10 +65,32 @@ function Menu() {
                   VideoView
                 </Link>
               </p>
+              <div className="mb-3">
+              {isAutheticated() &&
+                <Link to="/Profile" >
+                   <img src="https://i.pravatar.cc/30" className="rounded-circle" alt="profile" /> &nbsp;&nbsp;
+                  <p className="btn px-2 ">
+                    {isAutheticated() && user.name}
+                  </p>
+                </Link >
+              }
+              </div>
+              <p>
+                <button onClick={() => {
+                  signout(() => {
+                    navigate('/')
+                  })
+                }} 
+                className="btn btn-danger"
+                style={{backgroundColor:'#dc3545'}}
+                >
+                  Logout
+                </button>
+              </p>
             </div>
           </div>
           {/* Header Content */}
-          <div className="d-flex pt-3 align-items-center">
+          <div className="d-flex fixed-top pb-4 ps-4 shadow-lg bg-dark  pt-3 align-items-center ">
             <div
               className="hamburger "
               data-bs-toggle="offcanvas"
@@ -58,25 +99,31 @@ function Menu() {
             >
               <i className="fas  fa-bars"></i>
             </div>
-            <div>
-              <img src={logo} style={{ width: "200px", marginLeft: "50px" }} className="img-fluid ms-6" alt="logo" />
+            <div onClick={()=> navigate('/')}>
+              <img src={logo} style={{ height: "74px", marginLeft: "50px" }} className="img-fluid ms-6" alt="logo" />
             </div>
 
-            {/* Search Input Content */}
+            {/* Search Input Cont ent */}
             <div className="search-container">
-              <input
-                className="form-control form-control-sm input-search rounded border"
-                type="text"
-                placeholder="Search"
-                aria-label="Search example"
-              />
+              <div class="input-group">
+                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                <button type="button" class="btn btn-outline-primary">search</button>
+              </div>
             </div>
-            <button className="btn btn-lg rounded ms-auto">
-
-
-              upload    &nbsp;   <i class="fas fa-upload "></i> </button>
+            {/* upload */}
+            <button className="btn  rounded ms-auto">
+              upload    &nbsp;   <i class="fas fa-upload "></i>
+            </button>
+            {/* username */}
+            <div className="d-flex ms-3 pe-5 gap-2 align-items-center">
+              <img src="https://i.pravatar.cc/30" className="rounded-circle" alt="profile" />
+              <div className="align-self-center"> 
+              <p>{isAutheticated() && user.name}</p>
+              </div>
+            </div>
           </div>
         </div>
+
       </header>
     </div>
   );

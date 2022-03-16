@@ -22,16 +22,16 @@ exports.signin = (req, res) => {
 
   User.findOne({ email }, (err, user) => {
     //CHECK EMAIL
-    if (err) {
+    if (err || !user) {
       return res.status(400).json({
-        err: "User email Does not exist",
+        error: "user email doenot exists",
       });
     }
 
     //CHECK PASSWORD
     if (!user.authenticate(password)) {
-      res.status(401).json({
-        err: "email and password does'nt match",
+      return res.status(401).json({
+        error: "Email and password do not match",
       });
     }
 

@@ -1,0 +1,28 @@
+.Videocard{
+  width:18rem;
+  margin-top: 1rem;
+  background:white;
+  overflow:hidden;
+  border-radius:8px;
+}
+.Videocard img {
+  height:10rem;
+}
+.videInfo img{
+  height:3rem;
+  width:3rem;
+  align-self:center;
+}
+.videInfo{
+  display:flex;
+  gap:1.5rem;
+}
+.videoInfo p{
+  margin:0 !important;
+}
+.views{
+  font-size: 10px !important;
+}
+/* .channel_name{
+  font-size:13px;
+} */

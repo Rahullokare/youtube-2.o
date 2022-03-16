@@ -10,10 +10,10 @@ const {
 const Channel = require("../models/channel");
 
 //get user by id
-router.param("userId", getUserById);
+router.param(":userId", getUserById);
 
 //GET
-router.get("/user/userId", getUser);
+router.get("/user/:userId", getUser);
 
 // router.get("/user/");
 

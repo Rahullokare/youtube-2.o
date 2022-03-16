@@ -57,6 +57,17 @@ exports.getVideoById = (req, res) => {
   });
 };
 
+exports.getAllVideos = (req,res)=>{
+  Video.find().exec((err, videos) => {
+    if (err) {
+      return res.status(400).json({
+        error: "Videos not found",
+      });
+    }
+    res.json(videos);
+  });
+}
+
 exports.likeVideo = async (req, res) => {
   const likeVideo = await Video.findById(req.params.videoId);
   if (!likeVideo.likes.includes(req.auth._id)) {

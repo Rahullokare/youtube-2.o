@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
 const { getUserById } = require("../controllers/user");
-const { getVideoById, createVideo } = require("../controllers/video");
+const { getVideoById, createVideo ,getAllVideos} = require("../controllers/video");
 const {
   createPlaylist,
   getAllPlaylists,
@@ -14,6 +14,9 @@ const Channel = require("../models/channel");
 router.param(":videoId", getVideoById);
 
 router.param(":userId", getUserById);
+
+
+router.get("/videos/getAll", getAllVideos);
 
 router.post(
   "/video/create/:userId",
