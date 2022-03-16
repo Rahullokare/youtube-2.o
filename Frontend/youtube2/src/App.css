@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  /* background-color: #212121; */
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+}
+p{
+  margin-bottom: 0rem !important;
+}
+a{
+  text-decoration: none;
+}
+.btn {
+  background-color: rgb(103, 7, 228) !important;
+  color: #fff;
+}
+.btn:hover {
+  color: #fff;
+}

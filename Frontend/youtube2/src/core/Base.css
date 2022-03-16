@@ -1,0 +1,42 @@
+.offcanvas-start {
+  width: 300px;
+}
+.search-btn {
+  display: inline-block;
+  padding: 8px;
+  outline: none;
+  border: none;
+}
+.input-search {
+  border-right: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+}
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #fff;
+}
+.input-search:focus {
+  box-shadow: none;
+  background: transparent;
+}
+.offcanvas {
+  background-color: rgb(33, 33, 33);
+  color: #fff !important;
+}
+.nav-link {
+  text-decoration: none;
+  color: #fff;
+}
+
+.search-container {
+  margin-left: 25%;
+}
+/* .search-container input:focus {
+  color: #fff;
+} */
+/* .search-container input {
+  color: #fff;
+  padding: 0px 10px;
+} */
