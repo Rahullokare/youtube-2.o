@@ -3,6 +3,7 @@ var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
 exports.signup = (req, res) => {
   const user = new User(req.body);
+
   user.save((err, user) => {
     if (err) {
       return res.status(400).json({
@@ -24,7 +25,7 @@ exports.signin = (req, res) => {
     //CHECK EMAIL
     if (err || !user) {
       return res.status(400).json({
-        error: "user email doenot exists",
+        error: "user email not registered Please Signup!",
       });
     }
 

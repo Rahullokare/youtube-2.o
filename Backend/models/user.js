@@ -43,6 +43,7 @@ var userSchema = new mongoose.Schema(
     },
     channel_created: {
       type: Boolean,
+      default: false,
     },
     channel_id: {
       type: ObjectId,

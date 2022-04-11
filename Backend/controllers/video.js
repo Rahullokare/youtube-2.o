@@ -1,10 +1,24 @@
 const Video = require("../models/video");
 const path = require("path");
 const multer = require("multer");
+const Channel = require("../models/channel");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, "../uploads/"));
+  },
+  filename: function (req, file, cb) {
+    const uniqueName = `${Date.now()}-${Math.round(
+      Math.random() * 1e9
+    )}${path.extname(file.originalname)}`;
+    cb(null, uniqueName);
+  },
+});
+
+// for thumbnails
+const storage2 = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "../thumbnails/"));
   },
   filename: function (req, file, cb) {
     const uniqueName = `${Date.now()}-${Math.round(
@@ -25,21 +39,28 @@ exports.createVideo = (req, res) => {
         error: err.message,
       });
     }
-    const video = new Video({
-      file_name: req.file.filename,
-      video_path: req.file.path,
-      user_id: req.auth._id,
-      file_size: req.file.size,
-      ...req.body,
+    // console.log(req.file, "req.file");
+
+    Channel.find({ user_id: req.auth._id }).exec((err, chan) => {
+      const video = new Video({
+        file_name: req.file.path,
+        video_path: req.file.path,
+        user_id: req.auth._id,
+        file_size: req.size,
+        channel_name: chan[0].channel_name,
+        ...req.body,
+      });
+      video.save((err, vid) => {
+        if (err) {
+          return res.status(500).json({
+            error: err.message,
+          });
+        }
+        return res.status(200).json({ vid });
+      });
     });
-    video.save((err, vid) => {
-      if (err) {
-        return res.status(500).json({
-          error: err.message,
-        });
-      }
-      return res.status(200).json({ vid });
-    });
+
+    // return res.status(200).json(channel);
   });
 };
 
@@ -56,8 +77,11 @@ exports.getVideoById = (req, res) => {
     });
   });
 };
-
-exports.getAllVideos = (req,res)=>{
+//get user
+exports.getVideo = (req, res) => {
+  return res.json(req.videoinfo);
+};
+exports.getAllVideos = (req, res) => {
   Video.find().exec((err, videos) => {
     if (err) {
       return res.status(400).json({
@@ -66,7 +90,7 @@ exports.getAllVideos = (req,res)=>{
     }
     res.json(videos);
   });
-}
+};
 
 exports.likeVideo = async (req, res) => {
   const likeVideo = await Video.findById(req.params.videoId);

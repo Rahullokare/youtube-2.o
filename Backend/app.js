@@ -32,20 +32,18 @@ mongoose
     console.log("DB Connected");
   });
 
-
-  // app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 //MiddleWares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors())
+app.use(cors());
 app.use(helmet());
 app.use(morgan("common"));
 
 // app.use(express.static('uploads'))
+app.use(express.static(__dirname + "/public"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-
 
 //Routes
 app.use("/api", authRoutes);
@@ -56,8 +54,6 @@ app.use("/api", commentRoutes);
 app.use("/api", thumbnailRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", videoRoutes);
-
-
 
 //PORT
 const port = process.env.PORT || 8000;
