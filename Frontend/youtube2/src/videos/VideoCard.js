@@ -2,30 +2,58 @@ import React, { useEffect, useState } from "react";
 import { API } from "../backend.js";
 import thubmnaila from "../assets/coding.jpg";
 import classes from "./VideoCard.module.css";
-import { Link } from "react-router-dom";
-const VideoCard = ({i}) => {
-  const [user, setUser] = useState({});
-
-  // useEffect(() => {
-  //   fetch(`${API}/api/user/${props.thumbnails.userId}`)
-  //     .then((response) => response.json())
-  //     .then((data) => setUser(data.user));
-  // }, []);
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import VideoView from "./VideoView.js";
+const VideoCard = ({ i, videoInfo }) => {
+  const [channel, setChannel] = useState(null);
+  const navigate = useNavigate();
+  const ChannelInfoGetter = () => {
+    console.log(videoInfo, "vdieoinfor");
+    axios
+      .get(`${API}/finduserchannels/${videoInfo.user_id}`)
+      .then((response) => {
+        setChannel(response.data[0]);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
+  useEffect(() => {
+    ChannelInfoGetter();
+  }, []);
 
   return (
     <div className={classes.Videocard}>
-      <img src='https://picsum.photos/200/300' className="card-img-top img-fluid" />
+      <img
+        src="https://picsum.photos/200/300"
+        className="card-img-top img-fluid"
+      />
       <div className="card-body">
         <div className={classes.videInfo}>
-          <img src={`https://picsum.photos/seed/${i}/20/30`} className="rounded-circle img-fluid" />
-          <div>
-            <p className="text-muted">Video Title is here</p>
-            <p className="text-muted">Deveolpers_Choice</p>
+          <Link to="/VideoView">
+            <img
+              src={`https://picsum.photos/seed/${i}/20/30`}
+              className="rounded-circle img-fluid"
+            />
+          </Link>
+
+          <div
+            onClick={() => {
+              navigate(`/VideoView/${videoInfo._id}`);
+            }}
+          >
+            {/* <p className="text-muted">{title}</p> */}
+
+            <p className="text-muted">{videoInfo.title}</p>
+            {channel && <p className="text-muted">{channel.channel_name}</p>}
+
             <div className="d-flex gap-3">
               <p className={`${classes.views} text-muted fs-6`}>2.4M views</p>
-              <p className={`${classes.views} text-muted fs-6`}>Streamed 1 month ago</p>
+              <p className={`${classes.views} text-muted fs-6`}>
+                Streamed 1 month ago
+              </p>
             </div>
-
           </div>
         </div>
       </div>

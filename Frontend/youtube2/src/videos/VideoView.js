@@ -2,60 +2,43 @@ import React, { useEffect, useState } from "react";
 import Base from "../core/Base";
 import "./VideoView.css";
 // import video from "../assets/video.mp4";
-import video from '../assets/video.mp4'
-
+import video from "../assets/video.mp4";
 import thubmnail from "../assets/coding.jpg";
 import SugesstionVideo from "./SugesstionVideo";
 import { useParams } from "react-router-dom";
 import { API } from "../backend";
+import VideoPlayer from "./VideoPlayer";
+import axios from "axios";
 
 function VideoView() {
-  // const { videoId } = useParams();
+  const [video, setVideo] = useState("");
+  const { videoId } = useParams();
 
-  // const [renderVideo, setRenderVideo] = useState("");
-
-  // const [videoUser, setVideoUser] = useState("");
-
-  // const [sujessionVideo, setSujjesionVide] = useState([]);
-
-  // useEffect(() => {
-  //   fetch(`${API}/api/video/render/${videoId}`)
-  //     .then((response) => response.json())
-  //     .then((data) => setRenderVideo(data.video));
-  // }, [videoId]);
-
-  // useEffect(() => {
-  //   if (renderVideo) {
-  //     fetch(`${API}/api/user/${renderVideo.userid}`)
-  //       .then((response) => response.json())
-  //       .then((data) => setVideoUser(data.user));
-  //   }
-  //   console.log(renderVideo);
-  // }, [renderVideo, videoId]);
-
-  // useEffect(() => {
-  //   fetch(`${API}/api/thumbnail/getall`)
-  //     .then((response) => response.json())
-  //     .then((data) => setSujjesionVide(data));
-  // }, []);
-
+  const videoGetter = () => {
+    console.log(videoId, "videoIDddddddddddd");
+    axios
+      .get(`${API}/video/render/${videoId}`)
+      .then((response) => {
+        setVideo(response.data.video);
+        console.log(video.file_name, "videoofileeee");
+        console.log(response.data.video, "response.data");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
+  useEffect(() => {
+    videoGetter();
+  }, []);
   return (
     <Base className="container">
       <div className=" row mt-5 pt-5">
         <div className="col-7 ">
-          <video className="video-play" controls>
-            <source
-              src={video}
-              type="video/mp4"
-              controls
-            />
-            Your browser does not support the video tag
-          </video>
-
+          <VideoPlayer videosrc={video.file_name} />
 
           <div className="d-flex mt-3">
             <div>
-              <h4 className="ms-3 ">renderVideo.title</h4>
+              <h4 className="ms-3 ">{video.title} </h4>
             </div>
           </div>
           <div className="d-flex justify-content-between mt-3 border-bottom">
@@ -71,8 +54,7 @@ function VideoView() {
                 <i class="far fa-thumbs-up"></i>
               </div>
               <div className="dislike d-inline ms-3">
-                dislikes{" "}
-                &nbsp;
+                dislikes &nbsp;
                 <i class="far fa-thumbs-down"></i>
               </div>
               <div className="share d-inline  ms-3">
@@ -94,9 +76,7 @@ function VideoView() {
                 &nbsp;&nbsp;
                 <div>
                   <h5 className="d-inline">Feel the Nature</h5>
-                  <p className="fw-light ">
-                    12k
-                  </p>
+                  <p className="fw-light ">12k</p>
                 </div>
               </div>
               <div className="subscribe-button">
@@ -105,38 +85,30 @@ function VideoView() {
                 </button>
               </div>
             </div>
-            <p>renderVideo.description</p>
+            <p>{video.description}</p>
           </div>
         </div>
         <div className="col-4 col-offset-1">
           <h3>Suggestion For You</h3>
-          {
-            new Array(6).fill("_").map((d, i) => {
-              return (
-                <div>
-                  <a
-                    href="#"
-                    className="d-flex mt-3 text-decoration-none text-white"
-                  >
-                    <div className="video-suggestion">
-                      <img src="https://picsum.photos/200/300" alt="" />
-                    </div>
-                    <div className="video-info ms-2">
-                      <h4 className="video-suggestion-title ">
-                        we love videos
-                      </h4>
-                      <h6 className="">Deveolpers_Choice</h6>
-                      <p class="fw-light">6 hours ago</p>
-                    </div>
-                  </a>
-                </div>
-              )
-            })
-          }
-
-
-
-
+          {new Array(6).fill("_").map((d, i) => {
+            return (
+              <div>
+                <a
+                  href="#"
+                  className="d-flex mt-3 text-decoration-none text-white"
+                >
+                  <div className="video-suggestion">
+                    <img src="https://picsum.photos/200/300" alt="" />
+                  </div>
+                  <div className="video-info ms-2">
+                    <h4 className="video-suggestion-title ">we love videos</h4>
+                    <h6 className="">Deveolpers_Choice</h6>
+                    <p class="fw-light">6 hours ago</p>
+                  </div>
+                </a>
+              </div>
+            );
+          })}
         </div>
       </div>
       {/* <video className="video-play" controls>

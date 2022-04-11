@@ -1,31 +1,30 @@
 import React, { useState } from "react";
 import Base from "../core/Base";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import { signin, authenticate, isAutheticated } from "../auth/helper/index.js";
-import logo from '../assets/svg/logo.svg'
-
+import logo from "../assets/svg/logo.svg";
 const Signin = () => {
   const [values, setValues] = useState({
     email: "test1045@gmail.com",
     password: "12345",
     error: "",
     loading: false,
-    didRedirect: false
+    didRedirect: false,
   });
 
   const { email, password, error, loading, didRedirect } = values;
   const { user } = isAutheticated();
 
-  const handleChange = name => event => {
+  const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
-  const onSubmit = event => {
+  const onSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
     signin({ email, password })
-      .then(data => {
+      .then((data) => {
         if (data.error) {
           setValues({ ...values, error: data.error, loading: false });
           console.log(data.error);
@@ -33,7 +32,7 @@ const Signin = () => {
           authenticate(data, () => {
             setValues({
               ...values,
-              didRedirect: true
+              didRedirect: true,
             });
           });
         }
@@ -82,10 +81,14 @@ const Signin = () => {
   const signInForm = () => {
     return (
       <div className="d-flex mt-3 justify-content-center  ">
-        
         <div className="border rounded border-danger p-5">
-        <div className="text-center mb-3">
-            <img src={logo} style={{ width: "200px" }} className="img-fluid ms-6" alt="logo" />
+          <div className="text-center mb-3">
+            <img
+              src={logo}
+              style={{ width: "200px" }}
+              className="img-fluid ms-6"
+              alt="logo"
+            />
           </div>
           {errorMessage()}
           <form>
@@ -98,7 +101,7 @@ const Signin = () => {
                 type="email"
               />
             </div>
-            
+
             <div className="form-group mt-3">
               <label className="text-light">Password</label>
               <input
@@ -109,10 +112,20 @@ const Signin = () => {
               />
             </div>
             <div class="d-grid gap-2">
-            <button onClick={onSubmit} style={{ background: 'linear-gradient(180deg, #FFC700 0%, #FF0000 100%)' }} className="btn btn-success btn-lg mt-3">
-              SignIn
+              <button
+                onClick={onSubmit}
+                style={{
+                  background:
+                    "linear-gradient(180deg, #FFC700 0%, #FF0000 100%)",
+                }}
+                className="btn btn-success btn-lg mt-3"
+              >
+                SignIn
               </button>
-
+            </div>
+            <div className="text-white mb-3">
+              Not a user? &nbsp;
+              <Link to="/signup">Signup</Link>
             </div>
           </form>
         </div>
@@ -121,16 +134,14 @@ const Signin = () => {
   };
 
   return (
-    <div className='mb-5'>
-
-
+    <div className="mb-5">
       {loadingMessage()}
-      
+
       {signInForm()}
       {performRedirect()}
 
       {/* <p className="text-white text-center">{JSON.stringify(values)}</p> */}
-    </div >
+    </div>
   );
 };
 

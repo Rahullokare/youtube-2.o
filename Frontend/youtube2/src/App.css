@@ -2,22 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   /* background-color: #212121; */
   color: #fff;
   font-family: "Poppins", sans-serif;
 }
-p{
+p {
   margin-bottom: 0rem !important;
 }
-a{
+a {
   text-decoration: none;
 }
 .btn {
-  background-color: rgb(103, 7, 228) !important;
+  background-color: rgb(103, 7, 228);
   color: #fff;
 }
 .btn:hover {
   color: #fff;
+}
+.activeLink {
+  border-bottom: 1px solid rgb(255, 255, 255);
+}
+.nav-link {
+  transition: all 1s ease-in-out;
+}
+.video-js {
+  border-radius: 10px;
+  overflow: hidden;
+}
+.vjs-poster {
+  border-radius: 10px;
 }
