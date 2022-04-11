@@ -15,6 +15,9 @@ function Menu() {
   const [preview, setPreview] = useState();
   const [loading, setLoading] = useState(true);
   const [IsuserChannelCreated, setIsuserChannelCreated] = useState(false);
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [file, setFile] = useState(null);
 
   const {
     register,
@@ -23,22 +26,24 @@ function Menu() {
     formState: { errors },
   } = useForm();
   const { token, user } = isAutheticated();
-  const createVideo = (data) => {
+
+  const createVideo = (e) => {
+    e.preventDefault();
     setLoading(true);
     // console.log(data);
-    const bodyFormData = new FormData();
-    bodyFormData.append("title", data.title);
-    bodyFormData.append("description", data.description);
-    console.log(data.video, "video.data");
-    bodyFormData.append("video", data.video);
+    const video = new FormData();
 
-    const reader = new FileReader();
+    video.append("title", title);
+    video.append("description", desc);
+    video.append("video", file);
 
-    for (var key of bodyFormData.entries()) {
-      console.log(key[0] + ", " + key[1], "bodyFormData");
-    }
+    console.log(video);
+
+    // for (var key of bodyFormData.entries()) {
+    //   console.log(key[0] + ", " + key[1], "bodyFormData");
+    // }
     axios
-      .post(`${API}/video/create/${user._id}`, bodyFormData, {
+      .post(`${API}/video/create/${user._id}`, video, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -269,7 +274,7 @@ function Menu() {
                 </div>
 
                 <div className="modal-body text-black">
-                  <form onSubmit={handleSubmit(createVideo)}>
+                  <form onSubmit={createVideo}>
                     <div className="mb-3">
                       <label for="recipient-name" className="col-form-label">
                         Video Title
@@ -278,13 +283,15 @@ function Menu() {
                         type="text"
                         className="form-control"
                         id="recipient-name"
-                        {...register("title", { required: true })}
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        // {...register("title", { required: true })}
                       />
-                      {errors.title && (
+                      {/* {errors.title && (
                         <span className="text-danger">
                           This field is required
                         </span>
-                      )}
+                      )} */}
                     </div>
                     <div className="mb-3">
                       <label for="message-text" className="col-form-label">
@@ -293,13 +300,15 @@ function Menu() {
                       <textarea
                         className="form-control"
                         id="message-text"
-                        {...register("description", { required: true })}
+                        value={desc}
+                        onChange={(e) => setDesc(e.target.value)}
+                        // {...register("description", { required: true })}
                       ></textarea>
-                      {errors.description && (
+                      {/* {errors.description && (
                         <span className="text-danger">
                           This field is required
                         </span>
-                      )}
+                      )} */}
                     </div>
                     <div className="mb-3">
                       <div class="mb-3">
@@ -310,23 +319,23 @@ function Menu() {
                           class="form-control"
                           type="file"
                           id="formFile"
-                          onChange={onSelectFile}
-                          {...register("video", {
-                            required: true,
-                          })}
+                          onChange={(e) => setFile(e.target.files[0])}
+                          // {...register("video", {
+                          //   required: true,
+                          // })}
                           accept="video/mp4,video/x-m4v,video/*"
                         />
-                        {errors.video && (
+                        {/* {errors.video && (
                           <span className="text-danger">
                             This field is required
                           </span>
-                        )}
+                        )} */}
                       </div>
-                      {selectedFile && (
+                      {/* {selectedFile && (
                         <video width="400" controls>
                           <source src={preview} />
                         </video>
-                      )}
+                      )} */}
                     </div>
                     <button type="submit" className="btn btn-primary">
                       Upload Video

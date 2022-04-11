@@ -26,8 +26,8 @@ exports.createVideo = (req, res) => {
       });
     }
     const video = new Video({
-      file_name: req.file.filename,
-      video_path: req.file.path,
+      file_name: req.file.path,
+      video_path: req.file.name,
       user_id: req.auth._id,
       file_size: req.file.size,
       ...req.body,
@@ -57,7 +57,7 @@ exports.getVideoById = (req, res) => {
   });
 };
 
-exports.getAllVideos = (req,res)=>{
+exports.getAllVideos = (req, res) => {
   Video.find().exec((err, videos) => {
     if (err) {
       return res.status(400).json({
@@ -66,7 +66,7 @@ exports.getAllVideos = (req,res)=>{
     }
     res.json(videos);
   });
-}
+};
 
 exports.likeVideo = async (req, res) => {
   const likeVideo = await Video.findById(req.params.videoId);
