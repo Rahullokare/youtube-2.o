@@ -6,12 +6,15 @@ import video from "../assets/video.mp4";
 import thubmnail from "../assets/coding.jpg";
 import SugesstionVideo from "./SugesstionVideo";
 import { useParams } from "react-router-dom";
-import { API } from "../backend";
+import { API, FileServer } from "../backend";
 import VideoPlayer from "./VideoPlayer";
 import axios from "axios";
+import VideoPlayerReact from "react-video-js-player";
 
 function VideoView() {
-  const [video, setVideo] = useState("");
+  const [video, setVideo] = useState();
+  const [channel, setChannel] = useState(null);
+
   const { videoId } = useParams();
 
   const videoGetter = () => {
@@ -20,13 +23,15 @@ function VideoView() {
       .get(`${API}/video/render/${videoId}`)
       .then((response) => {
         setVideo(response.data.video);
-        console.log(video.file_name, "videoofileeee");
-        console.log(response.data.video, "response.data");
+        console.log(response.data.video, "vudeoview");
       })
       .catch((error) => {
-        console.log(error.response.data);
+        console.log(error);
       });
   };
+
+  const poster =
+    "https://media.istockphoto.com/photos/young-couple-taking-break-from-sightseeing-for-selfie-picture-id1291682560?b=1&k=20&m=1291682560&s=170667a&w=0&h=nt6JJOV82jMhE23a0S2X7OHgYR9mA7Y2pfByJXUQoP0=";
   useEffect(() => {
     videoGetter();
   }, []);
@@ -34,11 +39,35 @@ function VideoView() {
     <Base className="container">
       <div className=" row mt-5 pt-5">
         <div className="col-7 ">
-          <VideoPlayer videosrc={video.file_name} />
+          {/* <>{JSON.stringify(video)}</> */}
+          {/* {video.video_path ? (
+            <video className="video-play" controls>
+              <source
+                src={`../../../Backend/uploads/${video && video.video_path}`}
+                type="video/mp4"
+                controls
+              />
+              Your browser does not support the video tag
+            </video>
+          ) : (
+            ""
+          )} */}
+          {/* <VideoPlayer
+            videosrc={video ? video.video_path : ""}
+            // videopath={video.video_path}
+          /> */}
+          <VideoPlayerReact
+            src={video && video.video_path}
+            poster={poster}
+            width="600"
+            height="400"
+          />
 
           <div className="d-flex mt-3">
             <div>
-              <h4 className="ms-3 ">{video.title} </h4>
+              <h4 className="ms-3 " style={{ fontSize: "18px" }}>
+                {video && video.title}{" "}
+              </h4>
             </div>
           </div>
           <div className="d-flex justify-content-between mt-3 border-bottom">
@@ -85,7 +114,7 @@ function VideoView() {
                 </button>
               </div>
             </div>
-            <p>{video.description}</p>
+            <p>{video && video.description}</p>
           </div>
         </div>
         <div className="col-4 col-offset-1">

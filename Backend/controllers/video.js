@@ -4,10 +4,8 @@ const multer = require("multer");
 const Channel = require("../models/channel");
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "../uploads/"));
-  },
-  filename: function (req, file, cb) {
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) => {
     const uniqueName = `${Date.now()}-${Math.round(
       Math.random() * 1e9
     )}${path.extname(file.originalname)}`;
@@ -17,10 +15,8 @@ const storage = multer.diskStorage({
 
 // for thumbnails
 const storage2 = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "../thumbnails/"));
-  },
-  filename: function (req, file, cb) {
+  destination: (req, file, cb) => cb(null, "uploads/thumbnail/"),
+  filename: (req, file, cb) => {
     const uniqueName = `${Date.now()}-${Math.round(
       Math.random() * 1e9
     )}${path.extname(file.originalname)}`;
@@ -32,6 +28,15 @@ const upload = multer({
   storage: storage,
   limit: { fileSize: 1000000 * 100 },
 }).single("video");
+
+const upload2 = multer({
+  storage: storage2,
+  limit: { fileSize: 1000000 * 100 },
+}).single("thumb");
+
+// step 1: video save
+// step 2: thumbnail path update save video
+
 exports.createVideo = (req, res) => {
   upload(req, res, (err) => {
     if (err) {
@@ -39,25 +44,33 @@ exports.createVideo = (req, res) => {
         error: err.message,
       });
     }
-    // console.log(req.file, "req.file");
+    // const userChannel = Channel.find({ user_id: req.auth._id }).exec(
+    //   (err, channel) => {
+    //     if (err) {
+    //       return res.status(500).json({
+    //         error: "not FOUND CHANNEL",
+    //       });
+    //     }
+    //     return res.json(channel);
+    //   }
+    // );
 
-    Channel.find({ user_id: req.auth._id }).exec((err, chan) => {
-      const video = new Video({
-        file_name: req.file.path,
-        video_path: req.file.path,
-        user_id: req.auth._id,
-        file_size: req.size,
-        channel_name: chan[0].channel_name,
-        ...req.body,
-      });
-      video.save((err, vid) => {
-        if (err) {
-          return res.status(500).json({
-            error: err.message,
-          });
-        }
-        return res.status(200).json({ vid });
-      });
+    // console.log(userChannel);
+    const video = new Video({
+      file_name: req.file.filename,
+      video_path: req.file.path,
+      user_id: req.auth._id,
+      // channel: req.channel._id,
+      file_size: req.file.size,
+      ...req.body,
+    });
+    video.save((err, vid) => {
+      if (err) {
+        return res.status(500).json({
+          error: err.message,
+        });
+      }
+      return res.status(200).json({ vid });
     });
 
     // return res.status(200).json(channel);
@@ -81,6 +94,7 @@ exports.getVideoById = (req, res) => {
 exports.getVideo = (req, res) => {
   return res.json(req.videoinfo);
 };
+
 exports.getAllVideos = (req, res) => {
   Video.find().exec((err, videos) => {
     if (err) {

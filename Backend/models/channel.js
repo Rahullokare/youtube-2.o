@@ -5,7 +5,6 @@ var ChannelSchema = new mongoose.Schema(
     user_id: {
       type: ObjectId,
       ref: "User",
-      required: true,
     },
     channel_name: {
       type: String,

@@ -14,11 +14,19 @@ a {
   text-decoration: none;
 }
 .btn {
-  background-color: rgb(103, 7, 228);
+  background-color: #d55b08 !important;
+  border: none;
   color: #fff;
 }
 .btn:hover {
   color: #fff;
+  background-color: #d55b08;
+}
+.btn-primary:focus {
+  color: #fff;
+  background-color: #d55b08;
+  border-color: #d55b08;
+  box-shadow: 0 0 0 0.25rem hsl(24, 93%, 73%);
 }
 .activeLink {
   border-bottom: 1px solid rgb(255, 255, 255);

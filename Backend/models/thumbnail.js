@@ -19,5 +19,5 @@ var thumbnailSchema = new mongoose.Schema({
     ref: "Category",
   },
 });
-
+//
 module.exports = mongoose.model("Thumbnail", thumbnailSchema);
