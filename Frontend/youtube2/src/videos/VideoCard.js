@@ -26,7 +26,7 @@ const VideoCard = ({ videoInfo }) => {
   }, []);
 
   return (
-    <div className={classes.Videocard}>
+    <div className={classes.Videocard} style={{ cursor: "pointer" }}>
       <img
         src="https://picsum.photos/200/300"
         className="card-img-top img-fluid"
@@ -54,7 +54,7 @@ const VideoCard = ({ videoInfo }) => {
               <p className={`${classes.views} text-muted fs-6`}>2.4M views</p>
               <p className={`${classes.views} text-muted fs-6`}>
                 {videoInfo.createdAt
-                  ? moment(videoInfo.createdAt).startOf("hour").fromNow()
+                  ? moment(videoInfo.createdAt).startOf("minute").fromNow()
                   : "No data"}
               </p>
             </div>

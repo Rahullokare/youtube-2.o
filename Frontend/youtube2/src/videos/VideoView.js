@@ -29,7 +29,20 @@ function VideoView() {
         console.log(error);
       });
   };
-
+  const [videos, setVideos] = useState({});
+  const thumbnailHandler = () => {
+    axios
+      .get(`${API}/videos/getAll`)
+      .then((response) => {
+        setVideos(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    thumbnailHandler();
+  }, []);
   const poster =
     "https://media.istockphoto.com/photos/young-couple-taking-break-from-sightseeing-for-selfie-picture-id1291682560?b=1&k=20&m=1291682560&s=170667a&w=0&h=nt6JJOV82jMhE23a0S2X7OHgYR9mA7Y2pfByJXUQoP0=";
   useEffect(() => {
@@ -56,13 +69,41 @@ function VideoView() {
             videosrc={video ? video.video_path : ""}
             // videopath={video.video_path}
           /> */}
-          <VideoPlayerReact
-            src={video && video.video_path}
+          {/* <VideoPlayerReact
+            src={video ? `http://localhost:3000/${video.video_path}` : ""}
             poster={poster}
             width="600"
             height="400"
-          />
-
+          /> */}
+          {/* <video className="video-play" controls>
+            <source
+              src={video ? `http://localhost:3000/${video.video_path}` : ""}
+              type="video/mp4"
+              controls
+            />
+            Your browser does not support the video tag
+          </video> */}
+          {/* {videos.length &&
+            videos.map((d, i) => {
+              return (
+                <>
+                  <p>Video Title : {d.title}</p>
+                  <p>Video Description : {d.description}</p>
+                  {d.video_path ? (
+                    <video className="video-play" controls>
+                      <source
+                        src={`../${d.video_path}`}
+                        type="video/mp4"
+                        controls
+                      />
+                      Your browser does not support the video tag
+                    </video>
+                  ) : (
+                    ""
+                  )}
+                </>
+              );
+            })} */}
           <div className="d-flex mt-3">
             <div>
               <h4 className="ms-3 " style={{ fontSize: "18px" }}>

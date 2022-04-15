@@ -23,6 +23,7 @@ var userSchema = new mongoose.Schema(
     },
     profilePhoto: {
       type: String,
+      required: true,
     },
     is_admin: {
       type: Boolean,

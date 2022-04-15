@@ -1,19 +1,48 @@
 const User = require("../models/user");
 var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
-exports.signup = (req, res) => {
-  const user = new User(req.body);
+const path = require("path");
+const multer = require("multer");
 
-  user.save((err, user) => {
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) => {
+    const uniqueName = `${Date.now()}-${Math.round(
+      Math.random() * 1e9
+    )}${path.extname(file.originalname)}`;
+    cb(null, uniqueName);
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limit: { fileSize: 1000000 * 100 },
+}).single("profilePhoto");
+exports.signup = (req, res) => {
+  upload(req, res, (err) => {
     if (err) {
-      return res.status(400).json({
-        err: err.message,
+      return res.status(500).json({
+        error: err.message,
       });
     }
-    res.json({
-      name: user.name,
-      email: user.email,
-      id: user._id,
+    console.log(req.body);
+    const user = new User({
+      profilePhoto: req.file.path,
+      ...req.body,
+    });
+
+    user.save((err, user) => {
+      if (err) {
+        return res.status(400).json({
+          err: err.message,
+        });
+      }
+      res.json({
+        name: user.name,
+        email: user.email,
+        profilePhoto: user.profilePhoto,
+        id: user._id,
+      });
     });
   });
 };

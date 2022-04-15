@@ -14,17 +14,34 @@ function Signup() {
     watch,
     formState: { errors },
   } = useForm();
+  const [name, setName] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [file, setFile] = useState(null);
+
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const profilePhoto = new FormData();
+
+    profilePhoto.append("name", name);
+    profilePhoto.append("lastname", lastname);
+    profilePhoto.append("email", email);
+    profilePhoto.append("password", password);
+    profilePhoto.append("profilePhoto", file);
+    console.log(file, "data.file");
+    // for (var key of profilePhoto.entries()) {
+    //   console.log(key[0] + ", " + key[1], "profilePhoto");
+    // }
     axios
-      .post(`${API}/signup`, {
-        name: data.firstname,
-        lastname: data.lastname,
-        email: data.email,
-        password: data.password,
+      .post(`${API}/signup`, profilePhoto, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
       .then((response) => {
         // if (response.error) {
@@ -56,7 +73,7 @@ function Signup() {
         />
       </div>
       <div className="border rounded border-danger p-5 ">
-        <form onSubmit={handleSubmit(onSubmit)} className="text-dark">
+        <form onSubmit={onSubmit} className="text-dark">
           <div className="text-center">
             <img
               className="img-fluid mb-4 "
@@ -73,15 +90,16 @@ function Signup() {
                   type="text"
                   className="form-control border-primary"
                   id="floatingInput"
-                  placeholder="name@example.com"
-                  style={errors ? { border: "1px solid red" } : ""}
-                  {...register("firstname", { required: true })}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  // style={errors ? { border: "1px solid red" } : ""}
+                  // {...register("name", { required: true })}
                 />
                 <label htmlFor="floatingInput">First Name</label>
               </div>
-              {errors.firstname && (
+              {/* {errors.name && (
                 <span className="text-danger">This field is required</span>
-              )}
+              )} */}
             </div>
             <div className="col-6">
               <div className="form-floating mb-3">
@@ -89,26 +107,29 @@ function Signup() {
                   type="text"
                   className="form-control"
                   id="floatingInput"
-                  placeholder="name@example.com"
-                  {...register("lastname", { required: true })}
+                  value={lastname}
+                  onChange={(e) => setLastname(e.target.value)}
+                  // {...register("lastname", { required: true })}
                 />
                 <label htmlFor="floatingInput">Last Name</label>
               </div>
-              {errors.lastname && (
+              {/* {errors.lastname && (
                 <span className="text-danger">This field is required</span>
-              )}
+              )} */}
             </div>
           </div>
           {/* second row */}
           <div className="row">
             <div className="col-6">
-              <div className="form-floating mb-3">
+              <div className="form-floating ">
                 <input
                   type="email"
                   className="form-control"
                   id="floatingInput"
                   placeholder="name@example.com"
-                  {...register("email", { required: true })}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  // {...register("email", { required: true })}
                 />
                 <label htmlFor="floatingInput">Email address</label>
               </div>
@@ -123,7 +144,9 @@ function Signup() {
                   className="form-control"
                   id="floatingPassword"
                   placeholder="Password"
-                  {...register("password", { required: true })}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  // {...register("password", { required: true })}
                 />
                 <label htmlFor="floatingPassword">Password</label>
               </div>
@@ -131,6 +154,24 @@ function Signup() {
                 <span className="text-danger">This field is required</span>
               )}
             </div>
+          </div>
+          <div class="mb-3">
+            <label for="formFileSm" class="form-label">
+              Small file input example
+            </label>
+            <input
+              class="form-control form-control-sm"
+              id="formFileSm"
+              type="file"
+              onChange={(e) => {
+                setFile(e.target.files[0]);
+              }}
+              accept=".png, .jpeg, .jpg"
+              // {...register("profilePhoto", { required: true })}
+            />
+            {errors.profilePhoto && (
+              <span className="text-danger">This field is required</span>
+            )}
           </div>
           <div className="text-white mb-3">
             Already a user? &nbsp;

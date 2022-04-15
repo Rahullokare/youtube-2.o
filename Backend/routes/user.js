@@ -18,10 +18,10 @@ router.get("/user/:userId", getUser);
 // router.get("/user/");
 
 //update
-router.put("/user/userId", isSignedIn, isAuthenticated, updateUser);
+router.put("/user/:userId", isSignedIn, isAuthenticated, updateUser);
 
 //delete
-router.delete("/user/userId", isSignedIn, isAuthenticated, deleteUser);
+router.delete("/user/:userId", isSignedIn, isAuthenticated, deleteUser);
 
 //create channel
 

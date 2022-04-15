@@ -14,13 +14,19 @@ function Menu() {
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
   const [loading, setLoading] = useState(true);
+  // user channel created or note
   const [IsuserChannelCreated, setIsuserChannelCreated] = useState(false);
+
+  // create vide info
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [category, setCategory] = useState("");
   const [error, setError] = useState("");
   const [file, setFile] = useState(null);
   const [thumbnail, setThumbnail] = useState(null);
+
+  //user info
+  const [profile, setProfile] = useState("");
 
   const { token, user } = isAutheticated();
 
@@ -103,7 +109,21 @@ function Menu() {
         });
     }
   };
+  const userInfoFetcher = () => {
+    if (isAutheticated()) {
+      axios
+        .get(`${API}/user/${user._id}`)
+        .then((res) => {
+          console.log(res.data, "profile");
+          setProfile(res.data.profilePhoto);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
   useEffect(() => {
+    userInfoFetcher();
     UserChannelCreatedChecker();
   }, []);
 
@@ -155,8 +175,13 @@ function Menu() {
                 {isAutheticated() && (
                   <Link to="/Profile">
                     <img
-                      src="https://i.pravatar.cc/30"
-                      className="rounded-circle"
+                      src={
+                        profile
+                          ? `http://localhost:8000/${profile}`
+                          : "https://i.pravatar.cc/30"
+                      }
+                      style={{ height: "28px", width: "28px" }}
+                      className="rounded-circle img-fluid"
                       alt="profile"
                     />{" "}
                     &nbsp;&nbsp;
@@ -242,12 +267,21 @@ function Menu() {
 
             {/* username */}
 
-            <div className="d-flex  ms-auto me-5  gap-2 align-items-center">
+            <Link
+              to="/profile/"
+              Link
+              className="d-flex  ms-auto me-5  gap-2 align-items-center"
+            >
               {isAutheticated() && (
                 <>
                   <img
-                    src="https://i.pravatar.cc/30"
-                    className="rounded-circle"
+                    src={
+                      profile
+                        ? `http://localhost:8000/${profile}`
+                        : "https://i.pravatar.cc/30"
+                    }
+                    style={{ height: "28px", width: "28px" }}
+                    className="rounded-circle img-fluid"
                     alt="profile"
                   />
                   <div className="align-self-center">
@@ -255,7 +289,7 @@ function Menu() {
                   </div>
                 </>
               )}
-            </div>
+            </Link>
           </div>
           {/* upload video popup */}
           <div
