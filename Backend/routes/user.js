@@ -6,6 +6,7 @@ const {
   updateUser,
   getUser,
   deleteUser,
+  saveToWatchLater,
 } = require("../controllers/user");
 const Channel = require("../models/channel");
 
@@ -41,4 +42,10 @@ router.post("/create/channel", isSignedIn, (req, res) => {
   });
 });
 
+router.put(
+  "/save/:userId/:videoId",
+  isSignedIn,
+  isAuthenticated,
+  saveToWatchLater
+);
 module.exports = router;

@@ -12,7 +12,7 @@ var VideoSchema = new mongoose.Schema(
     },
     title: {
       type: String,
-      maxlength: 20,
+      maxlength: 40,
       required: true,
     },
     description: {

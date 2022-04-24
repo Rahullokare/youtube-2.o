@@ -13,6 +13,7 @@ import ProfileVideos from "./user/ProfileVideos";
 import ProfilePlayList from "./user/ProfilePlayList";
 import ProfileChannel from "./user/ProfileChannel";
 import ProfileAbout from "./user/ProfileAbout";
+import { isAutheticated } from "./auth/helper";
 const MainRoutes = () => {
   return (
     <BrowserRouter>
@@ -21,8 +22,7 @@ const MainRoutes = () => {
         <Route path="/Explore" element={<Explore />}></Route>
         <Route path="/Signin" element={<Signin />}></Route>
         <Route path="/Signup" element={<Signup />}></Route>
-        <Route path="/Subscriptions" element={<Subscriptions />}></Route>
-        <Route path="/SaveVideos" element={<SaveVideos />}></Route>
+
         <Route path="/VideoView/:videoId" element={<VideoView />}></Route>
         <Route path="/profile/*" element={<Profile />}>
           <Route path="Home" element={<ProfileHome />}></Route>
@@ -32,6 +32,14 @@ const MainRoutes = () => {
           <Route path="About" element={<ProfileAbout />}></Route>
         </Route>
         {/* for 404 route */}
+        {isAutheticated() ? (
+          <>
+            <Route path="/Subscriptions" element={<Subscriptions />}></Route>
+            <Route path="/SaveVideos" element={<SaveVideos />}></Route>
+          </>
+        ) : (
+          ""
+        )}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>

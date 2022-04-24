@@ -6,7 +6,7 @@ import { signin, authenticate, isAutheticated } from "../auth/helper/index.js";
 import logo from "../assets/svg/logo.svg";
 const Signin = () => {
   const [values, setValues] = useState({
-    email: "test1045@gmail.com",
+    email: "rahul10@gmail.com",
     password: "12345",
     error: "",
     loading: false,

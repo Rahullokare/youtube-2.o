@@ -42,7 +42,7 @@ app.use(helmet());
 app.use(morgan("common"));
 
 // app.use(express.static('uploads'))
-app.use(express.static(__dirname + "/public"));
+// app.use(express.static(__dirname + "/public"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 //Routes

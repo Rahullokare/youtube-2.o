@@ -7,6 +7,7 @@ const {
   createVideo,
   getAllVideos,
   getVideo,
+  likeVideo,
 } = require("../controllers/video");
 const {
   createPlaylist,
@@ -21,6 +22,13 @@ router.param(":videoId", getVideoById);
 router.param(":userId", getUserById);
 
 router.get("/videos/getAll", getAllVideos);
+
+router.put(
+  "/likevideo/:userId/:videoId",
+  isSignedIn,
+  isAuthenticated,
+  likeVideo
+);
 
 router.post(
   "/video/create/:userId",

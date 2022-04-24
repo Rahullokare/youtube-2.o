@@ -108,10 +108,13 @@ exports.getAllVideos = (req, res) => {
 
 exports.likeVideo = async (req, res) => {
   const likeVideo = await Video.findById(req.params.videoId);
-  if (!likeVideo.likes.includes(req.auth._id)) {
-    await likeVideo.updateOne({ $push: { likes: req.auth._id } });
+
+  if (!likeVideo.likes.includes(req.params.userId)) {
+    await likeVideo.updateOne({
+      $push: { likes: req.params.userId },
+    });
     return res.status(200).json({
-      success: "Video Like",
+      success: "Video Liked",
     });
   } else {
     return res.status(500).json({

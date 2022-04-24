@@ -33,6 +33,10 @@ var userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    save_to_watch_later: {
+      type: Array,
+      default: [],
+    },
     encry_password: {
       type: String,
       required: true,

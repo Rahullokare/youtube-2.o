@@ -54,7 +54,7 @@ const Home = () => {
         })}
       </div>
       <div>
-        <div className="d-flex ms-4  flex-wrap gap-2">
+        <div className="d-flex ms-4  flex-wrap gap-3">
           {/* by default all category */}
           {videos.length && categorySelected == "All"
             ? videos.map((videoInfo, i) => {
@@ -66,12 +66,12 @@ const Home = () => {
                   return e.category == categorySelected;
                 })
                 .map((videoInfo, i) => {
-                  return <VideoCard key={i} videoInfo={videoInfo} />;
+                  return <VideoCard key={i} videoInfo={videoInfo} index={i} />;
                 })}
         </div>
       </div>
 
-      {videos.length &&
+      {/* {videos.length &&
         videos.map((d, i) => {
           return (
             <>
@@ -87,7 +87,7 @@ const Home = () => {
               )}
             </>
           );
-        })}
+        })} */}
     </Base>
   );
 };

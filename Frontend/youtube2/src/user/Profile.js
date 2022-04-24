@@ -44,7 +44,7 @@ function Profile() {
           </div>
           <div>
             <ul className=" d-flex mt-5" style={{ listStyle: "none" }}>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <NavLink
                   to="/profile/Home"
                   className={(navData) =>
@@ -55,7 +55,7 @@ function Profile() {
                 >
                   Home
                 </NavLink>
-              </li>{" "}
+              </li>{" "} */}
               <li className="nav-item">
                 <NavLink
                   to="/profile/Videos"
@@ -68,7 +68,7 @@ function Profile() {
                   Videos
                 </NavLink>
               </li>{" "}
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <NavLink
                   to="/profile/Playlist"
                   className={(navData) =>
@@ -79,7 +79,7 @@ function Profile() {
                 >
                   Playlist
                 </NavLink>
-              </li>{" "}
+              </li>{" "} */}
               <li className="nav-item">
                 <NavLink
                   to="/profile/Channel"

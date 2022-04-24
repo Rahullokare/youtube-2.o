@@ -54,11 +54,10 @@ function Signup() {
         navigate("/signin");
       })
       .catch((err) => {
-        if (err.response.data) {
-          console.log(err.response.data.err);
-          setError(err.response.data.err);
+        if (err.response) {
+          console.log(err.response);
+          setError(err.response);
         }
-
         // setError(err.response.data.err)
       });
   };

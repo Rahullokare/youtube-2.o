@@ -116,13 +116,14 @@ function ProfileChannel() {
       }).map((d, i) => {
         return (
           <div key={i}>
-            <p>{d.channel_name}</p>
-            <p>{d.channel_description}</p>
+            <p>Channel Name :- {d.channel_name}</p>
+            <p>Channel Description :- {d.channel_description}</p>
             <p>
+              Subcribers :-{" "}
               {d.subscribers.length ? d.subscribers.length : "No subscribers"}
             </p>
             <p>
-              Channel Launch at :
+              Channel Launch at :-
               {moment(d.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
             </p>
           </div>
