@@ -16,7 +16,7 @@ import moment from "moment";
 import SugesstionvideosCard from "./SugesstionvideosCard";
 
 function VideoView() {
-  const [video, setVideo] = useState();
+  const [video, setVideo] = useState("");
   const [channel, setChannel] = useState(null);
   const [profilePic, setProfilePic] = useState(null);
 
@@ -25,6 +25,7 @@ function VideoView() {
   const { videoId } = useParams();
   const { user, token } = isAutheticated();
   const navigate = useNavigate();
+
   const videoGetter = async () => {
     console.log(videoId, "videoIDddddddddddd");
     await axios
@@ -103,16 +104,24 @@ function VideoView() {
   };
   const poster =
     "https://media.istockphoto.com/photos/young-couple-taking-break-from-sightseeing-for-selfie-picture-id1291682560?b=1&k=20&m=1291682560&s=170667a&w=0&h=nt6JJOV82jMhE23a0S2X7OHgYR9mA7Y2pfByJXUQoP0=";
+
   useEffect(() => {
     videoGetter();
     suggestionVideoHandler();
     getUser();
   }, []);
+
   return (
     <Base className="container">
       <div className=" row mt-5 pt-5">
         <div className="col-7 ">
-          <VideoPlayer />
+          {video && (
+            <VideoPlayer
+              videopath={video.video_path}
+              thumbnail={video.thumbnail}
+            />
+          )}
+
           {/* <>{JSON.stringify(video)}</> */}
           {/* {video.video_path ? (
             <video className="video-play" controls>
@@ -220,7 +229,6 @@ function VideoView() {
                   fill="#ffff"
                   style={{
                     pointerEvents: "none",
-                    // display: "block",
                     width: "100%",
                     height: "28px",
                     width: "28px",

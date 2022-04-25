@@ -26,9 +26,8 @@ var VideoSchema = new mongoose.Schema(
     video_path: {
       type: String,
     },
-    thumbnails: {
-      type: Array,
-      default: [],
+    thumbnail: {
+      type: String,
     },
     file_name: {
       type: String,
@@ -49,12 +48,6 @@ var VideoSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-
-    // category: {
-    //   type: ObjectId,
-    //   ref: "Category",
-    //   required: true,
-    // },
   },
   { timestamps: true }
 );

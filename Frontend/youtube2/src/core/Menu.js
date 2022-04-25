@@ -42,6 +42,7 @@ function Menu() {
       video.append("description", desc);
       video.append("category", category);
       video.append("video", file);
+      video.append("thumbnail", thumbnail);
       // video.append("thumb", thumbnail);
 
       console.log(video);

@@ -24,10 +24,12 @@ const storage2 = multer.diskStorage({
   },
 });
 
-const upload = multer({
-  storage: storage,
-  limit: { fileSize: 1000000 * 100 },
-}).single("video");
+const upload = multer({ storage: storage });
+
+const multipleUpload = upload.fields([
+  { name: "video", maxCount: 1 },
+  { name: "thumbnail", maxCount: 1 },
+]);
 
 const upload2 = multer({
   storage: storage2,
@@ -38,30 +40,19 @@ const upload2 = multer({
 // step 2: thumbnail path update save video
 
 exports.createVideo = (req, res) => {
-  upload(req, res, (err) => {
+  multipleUpload(req, res, (err) => {
     if (err) {
       return res.status(500).json({
         error: err.message,
       });
     }
-    // const userChannel = Channel.find({ user_id: req.auth._id }).exec(
-    //   (err, channel) => {
-    //     if (err) {
-    //       return res.status(500).json({
-    //         error: "not FOUND CHANNEL",
-    //       });
-    //     }
-    //     return res.json(channel);
-    //   }
-    // );
+    console.log(req.files);
 
-    // console.log(userChannel);
     const video = new Video({
-      file_name: req.file.filename,
-      video_path: req.file.path,
+      video_path: req.files.video[0].path,
       user_id: req.auth._id,
-      // channel: req.channel._id,
-      file_size: req.file.size,
+      thumbnail: req.files.thumbnail[0].path,
+
       ...req.body,
     });
     video.save((err, vid) => {

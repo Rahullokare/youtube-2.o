@@ -3,12 +3,14 @@ import moment from "moment";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { API } from "../backend";
 import classes from "./VideoCard.module.css";
+import { useNavigate } from "react-router-dom";
 
 function SugesstionvideosCard({ videoInfo }) {
   const [channel, setChannel] = useState(null);
+  const navigate = useNavigate();
+
   const ChannelInfoGetter = () => {
     axios
       .get(`${API}/finduserchannels/${videoInfo.user_id}`)
@@ -26,11 +28,20 @@ function SugesstionvideosCard({ videoInfo }) {
   return (
     <div>
       <div>
-        <Link to={`/VideoView/${videoInfo._id}`}>
+        <p
+          onClick={() => {
+            navigate(`/VideoView/${videoInfo._id}`);
+            window.location.reload();
+          }}
+          style={{ cursor: "pointer" }}
+        >
           {" "}
           <div className="d-flex mt-3 text-decoration-none text-white">
             <div className="video-suggestion">
-              <img src="https://picsum.photos/200/300" alt="" />
+              <img
+                src={`http://localhost:8000/${videoInfo.thumbnail}`}
+                alt=""
+              />
             </div>
             <div className="video-info ms-2">
               <h4 className="video-suggestion-title ">{videoInfo.title}</h4>
@@ -47,7 +58,7 @@ function SugesstionvideosCard({ videoInfo }) {
               </p>
             </div>
           </div>
-        </Link>
+        </p>
       </div>
     </div>
   );

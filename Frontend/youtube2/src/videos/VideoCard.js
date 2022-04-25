@@ -10,6 +10,7 @@ const VideoCard = ({ videoInfo, index }) => {
   const [channel, setChannel] = useState(null);
   const [profilePic, setProfilePic] = useState(null);
   const navigate = useNavigate();
+  console.log(videoInfo);
   const ChannelInfoGetter = () => {
     // console.log(videoInfo, "vdieoinfor");
     axios
@@ -47,26 +48,17 @@ const VideoCard = ({ videoInfo, index }) => {
   return (
     <div className={classes.Videocard} style={{ cursor: "pointer" }}>
       <img
-        src={`https://picsum.photos/200/300?random=${Math.floor(
-          Math.random() * 10
-        )}`}
+        src={`http://localhost:8000/${videoInfo.thumbnail}`}
         className="card-img-top img-fluid"
       />
       <div className="card-body">
         <div className={classes.videInfo}>
           <Link to={`/VideoView/${videoInfo._id}`}>
             <img
-              src={
-                profilePic
-                  ? profilePic
-                  : `https://picsum.photos/200/300?random=${Math.floor(
-                      Math.random() * 10
-                    )}`
-              }
+              src={`http://localhost:8000/${profilePic}`}
               className="rounded-circle img-fluid"
             />
           </Link>
-
           <div
             onClick={() => {
               navigate(`/VideoView/${videoInfo._id}`);
