@@ -2,7 +2,13 @@ const express = require("express");
 const router = express.Router();
 const { isSignedIn, isAuthenticated } = require("../controllers/auth");
 const { getUserById } = require("../controllers/user");
-const { getVideoById, createVideo ,getAllVideos} = require("../controllers/video");
+const {
+  getVideoById,
+  createVideo,
+  getAllVideos,
+  getVideo,
+  likeVideo,
+} = require("../controllers/video");
 const {
   createPlaylist,
   getAllPlaylists,
@@ -15,8 +21,14 @@ router.param(":videoId", getVideoById);
 
 router.param(":userId", getUserById);
 
-
 router.get("/videos/getAll", getAllVideos);
+
+router.put(
+  "/likevideo/:userId/:videoId",
+  isSignedIn,
+  isAuthenticated,
+  likeVideo
+);
 
 router.post(
   "/video/create/:userId",
@@ -34,6 +46,6 @@ router.post(
   }
 );
 
-router.get("/video/render/:videoId");
+router.get("/video/render/:videoId", getVideo);
 
 module.exports = router;

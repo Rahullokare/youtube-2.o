@@ -1,27 +1,37 @@
-.Videocard{
-  width:18rem;
+.Videocard {
+  width: 17rem;
+  height: 220px;
   margin-top: 1rem;
-  background:white;
-  overflow:hidden;
-  border-radius:8px;
+  background: white;
+  overflow: hidden;
+  border-radius: 8px;
 }
 .Videocard img {
-  height:10rem;
+  height: 8rem;
 }
-.videInfo img{
-  height:3rem;
-  width:3rem;
-  align-self:center;
+.channel_name {
+  font-size: 12px;
+  color: black;
+  opacity: 0.8;
 }
-.videInfo{
-  display:flex;
-  gap:1.5rem;
+.videoTitle {
+  font-size: 14px;
+  color: black !important;
 }
-.videoInfo p{
-  margin:0 !important;
+.videInfo img {
+  height: 3rem;
+  width: 3rem;
+  align-self: center;
 }
-.views{
-  font-size: 10px !important;
+.videInfo {
+  display: flex;
+  gap: 1rem;
+}
+.videoInfo p {
+  margin: 0 !important;
+}
+.views {
+  font-size: 12px !important;
 }
 /* .channel_name{
   font-size:13px;

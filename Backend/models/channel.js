@@ -2,14 +2,13 @@ const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 var ChannelSchema = new mongoose.Schema(
   {
-    // user_id: {
-    //   type: ObjectId,
-    //   ref: "User",
-    //   required: true,
-    // },
+    user_id: {
+      type: ObjectId,
+      ref: "User",
+    },
     channel_name: {
       type: String,
-      unique:true,
+      unique: true,
       maxlength: 25,
       required: true,
     },

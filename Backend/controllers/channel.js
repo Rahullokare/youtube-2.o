@@ -30,6 +30,26 @@ exports.getChannelById = (req, res, next, id) => {
     next();
   });
 };
+exports.getUserChannelById = (req, res, next, id) => {
+  console.log(id, "id");
+  Channel.find({ user_id: id }).exec((err, channel) => {
+    if (err) {
+      console.log("====================================");
+      console.log(err);
+      console.log("====================================");
+      return res.status(400).json({
+        err: "Channel Not Found",
+      });
+    }
+
+    req.channel = channel;
+    next();
+  });
+};
+
+exports.getUserChannel = (req, res) => {
+  return res.json(req.channel);
+};
 
 exports.getAllChannels = (req, res) => {
   Channel.find().exec((err, channels) => {
