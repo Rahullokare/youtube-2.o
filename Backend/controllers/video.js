@@ -1,12 +1,11 @@
 const Video = require("../models/video");
 const path = require("path");
 const multer = require("multer");
+const Channel = require("../models/channel");
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "../uploads/"));
-  },
-  filename: function (req, file, cb) {
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) => {
     const uniqueName = `${Date.now()}-${Math.round(
       Math.random() * 1e9
     )}${path.extname(file.originalname)}`;
@@ -14,22 +13,46 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({
-  storage: storage,
+// for thumbnails
+const storage2 = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/thumbnail/"),
+  filename: (req, file, cb) => {
+    const uniqueName = `${Date.now()}-${Math.round(
+      Math.random() * 1e9
+    )}${path.extname(file.originalname)}`;
+    cb(null, uniqueName);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+const multipleUpload = upload.fields([
+  { name: "video", maxCount: 1 },
+  { name: "thumbnail", maxCount: 1 },
+]);
+
+const upload2 = multer({
+  storage: storage2,
   limit: { fileSize: 1000000 * 100 },
-}).single("video");
+}).single("thumb");
+
+// step 1: video save
+// step 2: thumbnail path update save video
+
 exports.createVideo = (req, res) => {
-  upload(req, res, (err) => {
+  multipleUpload(req, res, (err) => {
     if (err) {
       return res.status(500).json({
         error: err.message,
       });
     }
+    console.log(req.files);
+
     const video = new Video({
-      file_name: req.file.filename,
-      video_path: req.file.path,
+      video_path: req.files.video[0].path,
       user_id: req.auth._id,
-      file_size: req.file.size,
+      thumbnail: req.files.thumbnail[0].path,
+
       ...req.body,
     });
     video.save((err, vid) => {
@@ -40,6 +63,8 @@ exports.createVideo = (req, res) => {
       }
       return res.status(200).json({ vid });
     });
+
+    // return res.status(200).json(channel);
   });
 };
 
@@ -56,8 +81,12 @@ exports.getVideoById = (req, res) => {
     });
   });
 };
+//get user
+exports.getVideo = (req, res) => {
+  return res.json(req.videoinfo);
+};
 
-exports.getAllVideos = (req,res)=>{
+exports.getAllVideos = (req, res) => {
   Video.find().exec((err, videos) => {
     if (err) {
       return res.status(400).json({
@@ -66,14 +95,17 @@ exports.getAllVideos = (req,res)=>{
     }
     res.json(videos);
   });
-}
+};
 
 exports.likeVideo = async (req, res) => {
   const likeVideo = await Video.findById(req.params.videoId);
-  if (!likeVideo.likes.includes(req.auth._id)) {
-    await likeVideo.updateOne({ $push: { likes: req.auth._id } });
+
+  if (!likeVideo.likes.includes(req.params.userId)) {
+    await likeVideo.updateOne({
+      $push: { likes: req.params.userId },
+    });
     return res.status(200).json({
-      success: "Video Like",
+      success: "Video Liked",
     });
   } else {
     return res.status(500).json({

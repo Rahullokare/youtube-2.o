@@ -23,12 +23,17 @@ var userSchema = new mongoose.Schema(
     },
     profilePhoto: {
       type: String,
+      required: true,
     },
     is_admin: {
       type: Boolean,
       default: false,
     },
     subscriptions: {
+      type: Array,
+      default: [],
+    },
+    save_to_watch_later: {
       type: Array,
       default: [],
     },
@@ -43,6 +48,7 @@ var userSchema = new mongoose.Schema(
     },
     channel_created: {
       type: Boolean,
+      default: false,
     },
     channel_id: {
       type: ObjectId,

@@ -21,6 +21,24 @@ exports.getUser = (req, res) => {
   return res.json(req.profile);
 };
 
+exports.saveToWatchLater = async (req, res) => {
+  const user = await User.findById(req.profile._id);
+  // console.log(req.params.videoId, "userId");
+  // console.log(req.params.userId, "userId");
+  if (!user.save_to_watch_later.includes(req.params.videoId)) {
+    await user.updateOne({
+      $push: { save_to_watch_later: req.params.videoId },
+    });
+    return res.status(200).json({
+      success: "Video Save to Watched Later",
+    });
+  } else {
+    return res.status(500).json({
+      message: "You Already Save to Watched Later",
+    });
+  }
+};
+
 //update user
 exports.updateUser = (req, res) => {
   User.findByIdAndUpdate(
